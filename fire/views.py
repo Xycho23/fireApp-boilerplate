@@ -10,6 +10,9 @@ class HomePageView(TemplateView):
 class DashboardChartView(TemplateView):
     template_name = 'chart.html'
 
+class MapIncidentsView(TemplateView):
+    template_name = 'map-incidents.html'
+
 def pie_chart(request):
     severity_counts = FireIncident.objects.values('severity_level').annotate(count=Count('id'))
     data = {item['severity_level']: item['count'] for item in severity_counts}
