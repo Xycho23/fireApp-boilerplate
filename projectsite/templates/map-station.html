@@ -1,10 +1,84 @@
-<div class="page-header">
-    <h4 class="page-title">Fire Stations</h4>
-    <ul class="breadcrumbs">
-        <li class="nav-home">
-            <a href="{% url 'home' %}">
-                <i class="flaticon-home"></i>
-            </a>
-        </li>
-    </ul>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<div class="page-inner">
+    <div class="card card-transparent">
+        <div class="card-header">
+            <h4 class="card-title text-center">Fire Stations</h4>
+            <p class="card-category text-center">
+                Locations of all fire stations in the area. Map data from 
+                <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.
+            </p>
+        </div>
+        <div class="card-body">
+            <div class="col-md-10 ml-auto mr-auto">
+                <!-- Add location filter -->
+                <div class="form-group">
+                    <label for="stationFilter">Filter by Station:</label>
+                    <select id="stationFilter" class="form-control">
+                        <option value="">Show All</option>
+                        <option value="Sta. Lourdes">Sta. Lourdes</option>
+                        <option value="Sicsican">Sicsican</option>
+                        <option value="Tagburos">Tagburos</option>
+                    </select>
+                </div>
+                <div id="map" style="width: 100%; height: 400px"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var map = L.map('map').setView([9.81644, 118.72239], 13);
+
+    var truckIcon = L.icon({
+        iconUrl: "{% static 'img/firetruck.png' %}",
+        iconSize: [50, 50],
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    var markers = [];
+    var markerData = [
+        {latitude: 9.83369118406607, longitude: 118.72275445554, name: "Sta. Lourdes", address: "Fire Station 1"},
+        {latitude: 9.79555573875096, longitude: 118.710565836493, name: "Sicsican", address: "Fire Station 2"},
+        {latitude: 9.82084079557777, longitude: 118.74401369655, name: "Tagburos", address: "Fire Station 3"}
+    ];
+
+    function addMarkers(data) {
+        markers.forEach(function(marker) {
+            map.removeLayer(marker);
+        });
+        markers = [];
+        
+        data.forEach(function(item) {
+            var latitude = parseFloat(item.latitude);
+            var longitude = parseFloat(item.longitude);
+            var marker = L.marker([latitude, longitude], { icon: truckIcon }).addTo(map);
+            marker.bindPopup(`<b>${item.name}</b><br>${item.address}`);
+            markers.push(marker);
+        });
+    }
+
+    addMarkers(markerData);
+
+    document.getElementById('stationFilter').addEventListener('change', function() {
+        var selected = this.value;
+        if (selected) {
+            var filteredData = markerData.filter(function(item) {
+                return item.name === selected;
+            });
+            addMarkers(filteredData);
+        } else {
+            addMarkers(markerData);
+        }
+    });
+});
+</script>
+{% endblock %}
