@@ -35,45 +35,27 @@ class MapIncidentsView(ListView):
         return context
 
 def pie_chart(request):
-    severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
-    severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id'))
-    
-    # Initialize with zeros
+    # Test data for visualization
     data = {
-        'labels': severity_levels,
+        'labels': ['Minor Fire', 'Moderate Fire', 'Major Fire'],
         'datasets': [{
-            'data': [0] * len(severity_levels),
-            'backgroundColor': ['#1d7af3', '#f3545d', '#fdaf4b']
+            'data': [30, 50, 20],  # Sample counts
+            'backgroundColor': ['#1d7af3', '#f3545d', '#fdaf4b'],
+            'borderWidth': 0
         }]
     }
-    
-    # Fill in actual counts
-    for item in severity_counts:
-        if item['severity_level'] in severity_levels:
-            idx = severity_levels.index(item['severity_level'])
-            data['datasets'][0]['data'][idx] = item['count']
-    
     return JsonResponse(data)
 
 def doughnut_chart(request):
-    severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
-    severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id'))
-    
-    # Initialize with zeros
+    # Test data for visualization
     data = {
-        'labels': severity_levels,
+        'labels': ['Minor Fire', 'Moderate Fire', 'Major Fire'],
         'datasets': [{
-            'data': [0] * len(severity_levels),
-            'backgroundColor': ['#f3545d', '#fdaf4b', '#1d7af3']
+            'data': [45, 25, 30],  # Sample counts
+            'backgroundColor': ['#f3545d', '#fdaf4b', '#1d7af3'],
+            'borderWidth': 0
         }]
     }
-    
-    # Fill in actual counts
-    for item in severity_counts:
-        if item['severity_level'] in severity_levels:
-            idx = severity_levels.index(item['severity_level'])
-            data['datasets'][0]['data'][idx] = item['count']
-    
     return JsonResponse(data)
 
 def line_chart(request):
