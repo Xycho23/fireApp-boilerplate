@@ -15,6 +15,15 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    
+    # Add these lines to enable SSL
+    from django.core.management.commands.runserver import Command as runserver
+    runserver.default_port = "8000"
+    runserver.default_addr = "0.0.0.0"
+    # Enable SSL
+    runserver.default_ssl_certificate = os.path.join(os.path.dirname(__file__), "localhost.crt")
+    runserver.default_ssl_key = os.path.join(os.path.dirname(__file__), "localhost.key")
+    
     execute_from_command_line(sys.argv)
 
 

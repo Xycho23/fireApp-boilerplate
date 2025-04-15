@@ -2,14 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Atlantis Lite is a free Bootstrap 4 admin dashboard template. It is fully responsive and comes with a lot of components">
-    <meta name="author" content="ThemeKita">
-    <meta name="keywords" content="Atlantis Lite, Bootstrap 4 Admin, Bootstrap 4 Dashboard, Bootstrap 4 Admin Template, Bootstrap 4 Dashboard Template">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>{% block title %}FireApp{% endblock %}</title>
-    <link rel="icon" href="{% static 'img/icon.ico' %}" type="image/x-icon">
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="{% static 'img/icon.ico' %}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="{% static 'js/plugin/webfont/webfont.min.js' %}"></script>
@@ -38,14 +34,14 @@
           <a href="index.html" class="logo">
             <img src="{% static 'img/logo.svg' %}" alt="navbar brand" class="navbar-brand" />
           </a>
-          <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation" title="Toggle Navigation">
+          <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">
               <i class="icon-menu"></i>
             </span>
           </button>
-          <button class="topbar-toggler more" title="Toggle Topbar"><i class="icon-options-vertical"></i></button>
+          <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
           <div class="nav-toggle">
-            <button class="btn btn-toggle toggle-sidebar" title="Toggle Sidebar">
+            <button class="btn btn-toggle toggle-sidebar">
               <i class="icon-menu"></i>
             </button>
           </div>
@@ -55,11 +51,14 @@
         <!-- Navbar Header -->
         <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
           <div class="container-fluid">
-            <div class="collapse" id="search-nav" aria-expanded="false" aria-controls="search-nav">
-              <!-- Add content here or remove this section if unnecessary -->
+            <div class="collapse" id="search-nav">
+              
             </div>
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-              <!-- Add navigation items here or remove this section if unnecessary -->
+              
+              
+              
+              
             </ul>
           </div>
         </nav>
@@ -172,7 +171,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'map-incidents' %}">
+                      <a href="{% url 'map-station' %}">
                         <span class="sub-item">Fire Incidents</span>
                       </a>
                     </li>
