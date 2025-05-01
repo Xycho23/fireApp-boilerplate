@@ -129,6 +129,7 @@
         fetch("{% url 'pie-chart' %}")
             .then(response => response.json())
             .then(data => {
+                console.log("Pie Chart Data:", data); // Debug print
                 var pieChart = document.getElementById("pieChart").getContext("2d");
                 new Chart(pieChart, {
                     type: 'pie',
@@ -136,23 +137,24 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                fontColor: 'rgb(154, 154, 154)',
-                                fontSize: 11,
-                                usePointStyle: true,
-                                padding: 20
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20
+                                }
                             }
                         }
                     }
                 });
-            });
+            })
+            .catch(error => console.error('Error loading pie chart:', error));
 
         // Doughnut Chart
         fetch("{% url 'doughnut-chart' %}")
             .then(response => response.json())
             .then(data => {
+                console.log("Doughnut Chart Data:", data); // Debug print
                 var doughnutChart = document.getElementById("doughnutChart").getContext("2d");
                 new Chart(doughnutChart, {
                     type: 'doughnut',
@@ -160,12 +162,18 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        legend: {
-                            position: 'bottom'
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20
+                                }
+                            }
                         }
                     }
                 });
-            });
+            })
+            .catch(error => console.error('Error loading doughnut chart:', error));
 
         // lineChart
         fetch("{% url 'line-chart' %}")

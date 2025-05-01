@@ -5,6 +5,9 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 from fire.models import Locations, Incident, FireStation
+import logging
+
+logger = logging.getLogger(__name__)
 
 class HomePageView(ListView):
     model = Locations
@@ -13,6 +16,14 @@ class HomePageView(ListView):
 
 class DashboardChartView(TemplateView):
     template_name = 'chart.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add FireStation data to context for debugging
+        stations = FireStation.objects.all()
+        logger.debug(f"FireStations loaded: {stations.count()}")
+        context['stations'] = stations
+        return context
 
 class MapStationView(ListView):
     model = FireStation
@@ -35,45 +46,54 @@ class MapIncidentsView(ListView):
         return context
 
 def pie_chart(request):
-    severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
-    severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id'))
-    
-    # Initialize with zeros
-    data = {
-        'labels': severity_levels,
-        'datasets': [{
-            'data': [0] * len(severity_levels),
-            'backgroundColor': ['#1d7af3', '#f3545d', '#fdaf4b']
-        }]
-    }
-    
-    # Fill in actual counts
-    for item in severity_counts:
-        if item['severity_level'] in severity_levels:
-            idx = severity_levels.index(item['severity_level'])
-            data['datasets'][0]['data'][idx] = item['count']
-    
-    return JsonResponse(data)
+    try:
+        severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
+        severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id'))
+        
+        logger.debug(f"Severity counts: {list(severity_counts)}")
+        
+        data = {
+            'labels': severity_levels,
+            'datasets': [{
+                'data': [0] * len(severity_levels),
+                'backgroundColor': ['#1d7af3', '#f3545d', '#fdaf4b'],
+                'borderWidth': 1
+            }]
+        }
+        
+        for item in severity_counts:
+            if item['severity_level'] in severity_levels:
+                idx = severity_levels.index(item['severity_level'])
+                data['datasets'][0]['data'][idx] = item['count']
+        
+        logger.debug(f"Pie chart data: {data}")
+        return JsonResponse(data)
+    except Exception as e:
+        logger.error(f"Error in pie_chart: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
 
 def doughnut_chart(request):
     severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
-    severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id'))
+    severity_counts = Incident.objects.values('severity_level').annotate(count=Count('id')).order_by('severity_level')
     
-    # Initialize with zeros
     data = {
         'labels': severity_levels,
         'datasets': [{
             'data': [0] * len(severity_levels),
-            'backgroundColor': ['#f3545d', '#fdaf4b', '#1d7af3']
+            'backgroundColor': ['#f3545d', '#fdaf4b', '#1d7af3'],
+            'borderWidth': 1,
+            'cutout': '60%'
         }]
     }
     
-    # Fill in actual counts
+    print("Severity Counts:", list(severity_counts))  # Debug print
+    
     for item in severity_counts:
         if item['severity_level'] in severity_levels:
             idx = severity_levels.index(item['severity_level'])
             data['datasets'][0]['data'][idx] = item['count']
     
+    print("Final Data:", data)  # Debug print
     return JsonResponse(data)
 
 def line_chart(request):
