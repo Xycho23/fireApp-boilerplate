@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models.functions import ExtractMonth
 from fire.models import Locations, Incident, FireStation
+from django.contrib import messages
 import logging
 
 logger = logging.getLogger(__name__)
@@ -44,7 +45,19 @@ class MapIncidentsView(ListView):
         context = super().get_context_data(**kwargs)
         context['incidents'] = Incident.objects.all()
         return context
+    
+class CollegeUpdateView(UpdateView):
+    model = College
+    fields = "__all__"
+    context_object_name = 'college'
+    template_name = "college_form.html"
+    success_url = reverse_lazy ('college-list')
 
+    def form_valid(self, form):
+        college_name - form.instance.college_name
+        messages.success(self.request, f' {college_name} has updated successfully.')
+
+        return super().form_valid(form)
 def pie_chart(request):
     try:
         severity_levels = ['Minor Fire', 'Moderate Fire', 'Major Fire']
