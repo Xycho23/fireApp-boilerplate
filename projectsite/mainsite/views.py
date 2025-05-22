@@ -11,11 +11,11 @@ def dashboard_chart(request):
 
 def map_station(request):
     stations = FireStation.objects.all()
-    return render(request, 'mainsite/map_station.html', {'stations': stations})
+    return render(request, 'map-station.html', {'stations': stations})  # Changed from mainsite/map_station.html
 
 def map_incidents(request):
     incidents = FireIncident.objects.all()
-    return render(request, 'mainsite/map_incidents.html', {'incidents': incidents})
+    return render(request, 'map-incidents.html', {'incidents': incidents})  # Changed from mainsite/map_incidents.html
 
 # Location views
 def location_list(request):
@@ -189,8 +189,8 @@ def firetruck_delete(request, pk):
 
 # WeatherCondition CRUD
 def weather_list(request):
-    conditions = WeatherCondition.objects.all()
-    return render(request, 'management/weather_list.html', {'conditions': conditions})
+    weather_conditions = WeatherCondition.objects.all().order_by('-date_recorded')
+    return render(request, 'management/weather_list.html', {'weather_conditions': weather_conditions})
 
 def weather_add(request):
     if request.method == 'POST':

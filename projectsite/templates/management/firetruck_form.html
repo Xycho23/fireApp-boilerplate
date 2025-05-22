@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">{% if firetruck %}Edit{% else %}Add New{% endif %} Fire Truck</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Fire Truck Details</div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Vehicle Number</label>
+                            <input type="text" class="form-control" name="vehicle_number" value="{{ firetruck.vehicle_number|default:'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="form-control" name="type" required>
+                                <option value="PUMPER" {% if firetruck.type == 'PUMPER' %}selected{% endif %}>Pumper</option>
+                                <option value="TANKER" {% if firetruck.type == 'TANKER' %}selected{% endif %}>Tanker</option>
+                                <option value="LADDER" {% if firetruck.type == 'LADDER' %}selected{% endif %}>Ladder</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Capacity (Liters)</label>
+                            <input type="number" class="form-control" name="capacity" value="{{ firetruck.capacity|default:'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Station</label>
+                            <select class="form-control" name="station" required>
+                                {% for station in stations %}
+                                    <option value="{{ station.id }}" {% if firetruck.station.id == station.id %}selected{% endif %}>
+                                        {{ station.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="{% url 'firetruck-list' %}" class="btn btn-danger">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

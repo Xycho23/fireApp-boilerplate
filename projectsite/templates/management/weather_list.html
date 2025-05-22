@@ -8,9 +8,9 @@
 <thead>
     <tr>
         <th>Date Recorded</th>
-        <th>Temperature</th>
-        <th>Humidity</th>
-        <th>Wind Speed</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+        <th>Wind Speed (km/h)</th>
         <th>Actions</th>
     </tr>
 </thead>
@@ -18,15 +18,19 @@
     {% for weather in weather_conditions %}
     <tr>
         <td>{{ weather.date_recorded }}</td>
-        <td>{{ weather.temperature }}°C</td>
-        <td>{{ weather.humidity }}%</td>
-        <td>{{ weather.wind_speed }} km/h</td>
+        <td>{{ weather.temperature }}</td>
+        <td>{{ weather.humidity }}</td>
+        <td>{{ weather.wind_speed }}</td>
         <td>
             <div class="btn-group" role="group">
                 <a href="{% url 'weather-edit' weather.pk %}" class="btn btn-primary btn-sm">Edit</a>
                 <a href="{% url 'weather-delete' weather.pk %}" class="btn btn-danger btn-sm">Delete</a>
             </div>
         </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" class="text-center">No weather conditions recorded yet.</td>
     </tr>
     {% endfor %}
 </tbody>

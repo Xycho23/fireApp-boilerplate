@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">{% if weather %}Edit{% else %}Add New{% endif %} Weather Condition</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Weather Details</div>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Date Recorded</label>
+                            <input type="datetime-local" class="form-control" name="date_recorded" value="{{ weather.date_recorded|date:'Y-m-d\TH:i' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Temperature (°C)</label>
+                            <input type="number" step="0.1" class="form-control" name="temperature" value="{{ weather.temperature|default:'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Humidity (%)</label>
+                            <input type="number" step="0.1" class="form-control" name="humidity" value="{{ weather.humidity|default:'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Wind Speed (km/h)</label>
+                            <input type="number" step="0.1" class="form-control" name="wind_speed" value="{{ weather.wind_speed|default:'' }}" required>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <button type="submit" class="btn btn-success">Save</button>
+                        <a href="{% url 'weather-list' %}" class="btn btn-danger">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
