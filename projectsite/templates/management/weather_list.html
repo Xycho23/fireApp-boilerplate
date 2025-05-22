@@ -1,0 +1,33 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Weather Conditions{% endblock %}
+{% block list_title %}List of Weather Conditions{% endblock %}
+{% block add_url %}{% url 'weather-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Date Recorded</th>
+        <th>Temperature</th>
+        <th>Humidity</th>
+        <th>Wind Speed</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for weather in weather_conditions %}
+    <tr>
+        <td>{{ weather.date_recorded }}</td>
+        <td>{{ weather.temperature }}°C</td>
+        <td>{{ weather.humidity }}%</td>
+        <td>{{ weather.wind_speed }} km/h</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'weather-edit' weather.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'weather-delete' weather.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

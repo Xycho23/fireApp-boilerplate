@@ -62,14 +62,11 @@
     var map = L.map('map').setView([9.79084079537797, 118.74201169654], 13);
 
     var fireIcon = L.icon({
-        iconUrl: "{% static 'img/fire.jpg' %}",
+        iconUrl: "{% static 'img/fire.png' %}",
         iconSize: [50, 50],
     });
 
-    var truckIcon = L.icon({
-        iconUrl: "{% static 'img/fire-truck-3.png' %}",
-        iconSize: [40, 40],
-    });
+
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

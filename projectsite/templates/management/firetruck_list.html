@@ -1,0 +1,33 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Fire Trucks{% endblock %}
+{% block list_title %}List of Fire Trucks{% endblock %}
+{% block add_url %}{% url 'firetruck-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Vehicle Number</th>
+        <th>Type</th>
+        <th>Capacity</th>
+        <th>Station</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for firetruck in firetrucks %}
+    <tr>
+        <td>{{ firetruck.vehicle_number }}</td>
+        <td>{{ firetruck.type }}</td>
+        <td>{{ firetruck.capacity }}</td>
+        <td>{{ firetruck.station.name }}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'firetruck-edit' firetruck.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'firetruck-delete' firetruck.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

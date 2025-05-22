@@ -1,0 +1,31 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Fire Stations{% endblock %}
+{% block list_title %}List of Fire Stations{% endblock %}
+{% block add_url %}{% url 'firestation-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Location</th>
+        <th>Contact Number</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for station in stations %}
+    <tr>
+        <td>{{ station.name }}</td>
+        <td>{{ station.location }}</td>
+        <td>{{ station.contact_number }}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'firestation-edit' station.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'firestation-delete' station.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "fire",
     "widget_tweaks",
+    "fire",
+    "mainsite",  # Changed from mainsite.apps.MainsiteConfig
 ]
 
 MIDDLEWARE = [

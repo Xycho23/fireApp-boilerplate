@@ -1,0 +1,33 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Firefighters{% endblock %}
+{% block list_title %}List of Firefighters{% endblock %}
+{% block add_url %}{% url 'firefighter-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Badge Number</th>
+        <th>Station</th>
+        <th>Position</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for firefighter in firefighters %}
+    <tr>
+        <td>{{ firefighter.name }}</td>
+        <td>{{ firefighter.badge_number }}</td>
+        <td>{{ firefighter.station.name }}</td>
+        <td>{{ firefighter.position }}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'firefighter-edit' firefighter.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'firefighter-delete' firefighter.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

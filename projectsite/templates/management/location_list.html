@@ -1,0 +1,31 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Locations{% endblock %}
+{% block list_title %}List of Locations{% endblock %}
+{% block add_url %}{% url 'location-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Address</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for location in locations %}
+    <tr>
+        <td>{{ location.address }}</td>
+        <td>{{ location.latitude }}</td>
+        <td>{{ location.longitude }}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'location-edit' location.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'location-delete' location.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this location?')">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

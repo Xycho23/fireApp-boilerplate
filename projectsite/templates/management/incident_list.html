@@ -1,0 +1,33 @@
+{% extends 'management/base_list.html' %}
+
+{% block page_title %}Fire Incidents{% endblock %}
+{% block list_title %}List of Fire Incidents{% endblock %}
+{% block add_url %}{% url 'incident-add' %}{% endblock %}
+
+{% block table_content %}
+<thead>
+    <tr>
+        <th>Location</th>
+        <th>Date Reported</th>
+        <th>Severity</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for incident in incidents %}
+    <tr>
+        <td>{{ incident.location }}</td>
+        <td>{{ incident.date_reported }}</td>
+        <td>{{ incident.severity }}</td>
+        <td>{{ incident.description }}</td>
+        <td>
+            <div class="btn-group" role="group">
+                <a href="{% url 'incident-edit' incident.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'incident-delete' incident.pk %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+{% endblock %}

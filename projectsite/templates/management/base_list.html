@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 300px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: slideIn 0.5s ease-in-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .alert-success {
+        background-color: #2dce89;
+        border: none;
+        color: white;
+    }
+    
+    .alert-info {
+        background-color: #11cdef;
+        border: none;
+        color: white;
+    }
+    
+    .alert-warning {
+        background-color: #fb6340;
+        border: none;
+        color: white;
+    }
+
+    .alert-error {
+        background-color: #f5365c;
+        border: none;
+        color: white;
+    }
+
+    .btn-close {
+        color: white;
+        opacity: 1;
+    }
+</style>
+
+<div id="notifications-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} notification alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<div class="page-inner">
+    <div class="page-header">
+        <h4 class="page-title">{% block page_title %}{% endblock %}</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center">
+                        <h4 class="card-title">{% block list_title %}{% endblock %}</h4>
+                        <a href="{% block add_url %}{% endblock %}" class="btn btn-primary btn-round ml-auto">
+                            <i class="fa fa-plus"></i>
+                            Add New
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            {% block table_content %}{% endblock %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function setupNotifications() {
+            const notifications = document.querySelectorAll('.notification');
+            notifications.forEach(function(notification) {
+                // Ensure the notification is visible initially
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+                
+                setTimeout(function() {
+                    notification.style.transition = 'all 0.5s ease-in-out';
+                    notification.style.transform = 'translateX(100%)';
+                    notification.style.opacity = '0';
+                    
+                    setTimeout(function() {
+                        if (notification && notification.parentElement) {
+                            notification.remove();
+                        }
+                    }, 500);
+                }, 3000);
+            });
+        }
+
+        // Setup initial notifications
+        setupNotifications();
+
+        // Setup observer for new notifications
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes.length) {
+                    setupNotifications();
+                }
+            });
+        });
+
+        // Start observing the notifications container
+        const container = document.getElementById('notifications-container');
+        observer.observe(container, { childList: true, subtree: true });
+    });
+</script>
+{% endblock %}
