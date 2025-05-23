@@ -7,7 +7,7 @@ def index(request):
     return render(request, 'mainsite/index.html')
 
 def dashboard_chart(request):
-    return render(request, 'mainsite/dashboard_chart.html')
+    return render(request, 'mainsite/chart.html')
 
 def map_station(request):
     stations = FireStation.objects.all()

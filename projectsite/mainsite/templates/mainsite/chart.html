@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-inner">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Fire Incidents by Month</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="incidentsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Weather Conditions Impact</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="weatherChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Sample charts - Update with real data from your views
+    const incidentsCtx = document.getElementById('incidentsChart').getContext('2d');
+    new Chart(incidentsCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Fire Incidents',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: '#f5365c'
+            }]
+        }
+    });
+
+    const weatherCtx = document.getElementById('weatherChart').getContext('2d');
+    new Chart(weatherCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Temperature',
+                data: [25, 27, 28, 30, 29, 28],
+                borderColor: '#ffd600'
+            }]
+        }
+    });
+</script>
+{% endblock %}
